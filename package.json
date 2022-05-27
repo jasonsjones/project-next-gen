@@ -1,0 +1,17 @@
+{
+    "name": "next-gen",
+    "version": "1.0.0",
+    "private": true,
+    "workspaces": [
+        "packages/*",
+        "apps/*"
+    ],
+    "scripts": {
+        "format": "prettier --write \"**/*.{ts,tsx,md} \""
+    },
+    "devDependencies": {
+        "prettier": "2.6.2",
+        "turbo": "1.2.14"
+    },
+    "license": "MIT"
+}
