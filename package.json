@@ -1,6 +1,6 @@
 {
-    "name": "next-gen",
-    "version": "1.0.0",
+    "name": "project-next-gen",
+    "version": "0.0.1",
     "private": true,
     "workspaces": [
         "packages/*",
