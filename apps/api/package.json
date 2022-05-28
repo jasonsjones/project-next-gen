@@ -5,7 +5,7 @@
     "type": "module",
     "scripts": {
         "build": "swc src -d dist",
-        "build:dev": "yarn build && NODE_ENV=development node --inspect dist/server.js",
+        "build:dev": "yarn build && NODE_ENV=development node --inspect dist/index.js",
         "clean": "rm -rf dist",
         "check:types": "tsc --noEmit",
         "dev": "nodemon --ext ts --exec \"yarn build:dev\"",
