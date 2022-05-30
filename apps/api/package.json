@@ -10,18 +10,21 @@
         "check:types": "tsc --noEmit",
         "dev": "nodemon --ext ts --exec \"yarn build:dev\"",
         "lint": "yarn check:types && eslint src/**/*.ts",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "vitest run"
     },
     "devDependencies": {
         "@swc/cli": "0.1.57",
         "@swc/core": "1.2.194",
         "@types/express": "4.17.13",
         "@types/node": "17.0.35",
+        "@types/supertest": "2.0.12",
         "eslint": "8.16.0",
         "eslint-config-custom": "*",
         "nodemon": "2.0.16",
+        "supertest": "6.2.3",
         "tsconfig": "*",
-        "typescript": "4.7.2"
+        "typescript": "4.7.2",
+        "vitest": "0.12.9"
     },
     "dependencies": {
         "express": "4.18.1"

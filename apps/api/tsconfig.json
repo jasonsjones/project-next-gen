@@ -3,9 +3,9 @@
         "lib": ["ES2021"],
         "module": "ES2020",
         "outDir": "./dist",
-        "rootDir": "./src"
+        "rootDir": "."
     },
     "exclude": ["node_modules"],
     "extends": "tsconfig/base.json",
-    "include": ["src"]
+    "include": ["src", "test"]
 }
