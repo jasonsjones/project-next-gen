@@ -1,7 +1,14 @@
 import Express, { Request, Response } from 'express';
+import morgan from 'morgan';
 
 export function createServer(): Express.Application {
     const app = Express();
+
+    if (app.settings.env === 'development') {
+        app.use(morgan('dev'));
+    } else if (app.settings.env === 'production') {
+        app.use(morgan('combined'));
+    }
 
     app.get('/', (_: Request, res: Response): void => {
         res.redirect('/api');
