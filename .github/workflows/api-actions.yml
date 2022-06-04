@@ -35,9 +35,9 @@ jobs:
             - name: 📥 Download deps
               uses: bahmutov/npm-install@v1
               with:
-                  working-directory: app/api
+                  working-directory: apps/api
                   useLockFile: false
 
             - name: 🔬 Lint
               run: yarn lint
-              working-directory: app/api
+              working-directory: apps/api
