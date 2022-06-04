@@ -1,15 +1,7 @@
 import Express, { Request, Response } from 'express';
 import morgan from 'morgan';
 
-export function createServer(): Express.Application {
-    const app = Express();
-
-    if (app.settings.env === 'development') {
-        app.use(morgan('dev'));
-    } else if (app.settings.env === 'production') {
-        app.use(morgan('combined'));
-    }
-
+function setupRoutes(app: Express.Application): void {
     app.get('/', (_: Request, res: Response): void => {
         res.redirect('/api');
     });
@@ -27,6 +19,18 @@ export function createServer(): Express.Application {
             message: 'Health Check: All good!'
         });
     });
+}
+
+export function createServer(): Express.Application {
+    const app = Express();
+
+    if (app.settings.env === 'development') {
+        app.use(morgan('dev'));
+    } else if (app.settings.env === 'production') {
+        app.use(morgan('combined'));
+    }
+
+    setupRoutes(app);
 
     return app;
 }
