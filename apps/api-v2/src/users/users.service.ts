@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { User, Password } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -34,6 +34,10 @@ export class UsersService {
 
     async findByEmail(email: string): Promise<User> {
         return await this.prisma.user.findUnique({ where: { email } });
+    }
+
+    async findByEmailIncludePassword(email: string): Promise<User & { password: Password }> {
+        return await this.prisma.user.findUnique({ where: { email }, include: { password: true } });
     }
 
     async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
