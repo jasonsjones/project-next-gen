@@ -1,19 +1,30 @@
 import bcrypt from 'bcryptjs';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 const DEFAULT_PASSWORD = 'test1234';
 
+const users: Prisma.UserCreateInput[] = [
+    {
+        firstName: 'Oliver',
+        lastName: 'Queen',
+        email: 'oliver@qc.com'
+    },
+    {
+        firstName: 'Barry',
+        lastName: 'Allen',
+        email: 'barry@starlabs.com'
+    }
+];
+
 async function seed(): Promise<void> {
     const hashedPassword = await bcrypt.hash(DEFAULT_PASSWORD, 12);
     const ollie = await prisma.user.upsert({
-        where: { email: 'oliver@qc.com' },
+        where: { email: users[0].email },
         update: {},
         create: {
-            firstName: 'Oliver',
-            lastName: 'Queen',
-            email: 'oliver@qc.com',
+            ...users[0],
             password: {
                 create: {
                     hash: hashedPassword
@@ -21,13 +32,12 @@ async function seed(): Promise<void> {
             }
         }
     });
+
     const barry = await prisma.user.upsert({
-        where: { email: 'barry@starlabs.com' },
+        where: { email: users[1].email },
         update: {},
         create: {
-            firstName: 'Barry',
-            lastName: 'Allen',
-            email: 'barry@starlabs.com',
+            ...users[1],
             password: {
                 create: {
                     hash: hashedPassword
