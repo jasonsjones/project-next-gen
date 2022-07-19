@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import bcrypt from 'bcryptjs';
 import { User } from '@prisma/client';
-import { UsersService } from '../users/users.service';
+import bcrypt from 'bcryptjs';
 import { PrismaService } from '../prisma/prisma.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
@@ -18,5 +18,15 @@ export class AuthService {
         }
 
         return null;
+    }
+
+    async login(user: Partial<User>) {
+        // get access token based on user data...
+        const access_token = 'jwt-access-token-goes-here';
+
+        return {
+            access_token,
+            user
+        };
     }
 }
