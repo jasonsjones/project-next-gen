@@ -1,7 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Patch,
+    Param,
+    Delete,
+    UploadedFile,
+    UseInterceptors
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import multer from 'multer';
 
 @Controller('users')
 export class UsersController {
@@ -30,5 +42,20 @@ export class UsersController {
     @Delete(':id')
     remove(@Param('id') id: string) {
         return this.usersService.remove(id);
+    }
+
+    @Post(':id/upload')
+    @UseInterceptors(FileInterceptor('file', { storage: multer.memoryStorage() }))
+    async upload(@Param('id') id: string, @UploadedFile() file: Express.Multer.File) {
+        const result = await this.usersService.upload(id, file);
+        if (result) {
+            return `${file.originalname} uploaded...`;
+        }
+        return 'Oops. Something went wrong';
+    }
+
+    @Get(':id/image')
+    getImage(@Param('id') id: string) {
+        return this.usersService.getImageForId(id);
     }
 }
