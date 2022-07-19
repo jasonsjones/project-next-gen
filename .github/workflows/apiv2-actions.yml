@@ -1,0 +1,42 @@
+name: API (v2) Actions
+on:
+    push:
+        branches:
+            - main
+            - dev
+        paths:
+            - 'apps/api-v2/**'
+    pull_request:
+        branches:
+            - main
+            - dev
+        paths:
+            - 'apps/api-v2/**'
+permissions:
+    actions: write
+    contents: read
+
+jobs:
+    lint:
+        name: ⬣ ESLint
+        runs-on: ubuntu-latest
+        steps:
+            - name: 🛑 Cancel Previous Runs
+              uses: styfle/cancel-workflow-action@0.9.1
+
+            - name: ⬇️ Checkout repo
+              uses: actions/checkout@v3
+
+            - name: ⎔ Setup node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 14
+
+            - name: 📥 Download deps
+              uses: bahmutov/npm-install@v1
+              with:
+                  useLockFile: false
+
+            - name: 🔬 Lint
+              run: yarn lint
+              working-directory: apps/api-v2
