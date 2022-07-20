@@ -3,3 +3,5 @@ dist/
 .turbo/
 yarn-error.log
 apps/**/prisma/db/
+.env
+.env.test
