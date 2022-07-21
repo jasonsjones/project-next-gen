@@ -8,8 +8,8 @@ async function bootstrap() {
     app.setGlobalPrefix('api/v1');
 
     const swaggerConfig = new DocumentBuilder()
-        .setTitle('DESC Portal API')
-        .setDescription('The DESC portal API')
+        .setTitle('Next-Gen Side Project API')
+        .setDescription('A RESTful API for the next-gen side project')
         .setVersion('1.0')
         .build();
 
