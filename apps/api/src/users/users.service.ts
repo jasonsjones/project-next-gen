@@ -53,11 +53,12 @@ export class UsersService {
         return await this.prisma.user.delete({ where: { id } });
     }
 
-    async upload(id: string, file: Express.Multer.File): Promise<boolean> {
+    async upload(id: string, file: Express.Multer.File): Promise<string> {
         // add file to a naive memory store
         // TODO: upload to cloudinary or an s3 bucket to persist image
         this.imageMemoryStore.set(id, file);
-        return Promise.resolve(true);
+        const result = `${file.originalname} uploaded to in-memory store...`;
+        return Promise.resolve(result);
     }
 
     getImageForId(id: string): string {

@@ -47,11 +47,7 @@ export class UsersController {
     @Post(':id/upload')
     @UseInterceptors(FileInterceptor('file', { storage: multer.memoryStorage() }))
     async upload(@Param('id') id: string, @UploadedFile() file: Express.Multer.File) {
-        const result = await this.usersService.upload(id, file);
-        if (result) {
-            return `${file.originalname} uploaded...`;
-        }
-        return 'Oops. Something went wrong';
+        return this.usersService.upload(id, file);
     }
 
     @Get(':id/image')
