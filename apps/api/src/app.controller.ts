@@ -1,14 +1,8 @@
 import { Controller, Get, Res } from '@nestjs/common';
-import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { AppService } from './app.service';
 
-/*
-class IndexResponse {
-    @ApiProperty({ description: 'simple message' })
-    message: string;
-}
-*/
 @ApiTags('Index')
 @Controller()
 export class AppController {
