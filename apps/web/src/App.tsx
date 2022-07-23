@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import reactLogo from './assets/react.svg';
 import TextInput from './components/base/TextInput';
+import Button from './components/base/Button';
 
 function App() {
     const [count, setCount] = useState(0);
@@ -10,6 +11,9 @@ function App() {
             <div className="w-1/4">
                 <TextInput id="email" label="Email" type="email" />
                 <TextInput id="password" label="Password" type="password" className="mt-8" />
+                <Button variant="primary" className="mt-8 w-full">
+                    Login
+                </Button>
             </div>
             <div className="flex gap-8">
                 <a href="https://vitejs.dev" target="_blank">
@@ -29,12 +33,13 @@ function App() {
             </div>
             <h1 className="text-5xl">Vite + React</h1>
             <div className="p-2 flex flex-col gap-2 items-center">
-                <button
-                    className="w-1/2 p-2 border-slate-600 border-2 rounded-md bg-slate-100"
-                    onClick={() => setCount((count) => count + 1)}
+                <Button
+                    variant="secondary"
+                    className="w-1/2"
+                    clickAction={() => setCount((count) => count + 1)}
                 >
                     count is {count}
-                </button>
+                </Button>
                 <p>
                     Edit <code>src/App.tsx</code> and save to test HMR
                 </p>
