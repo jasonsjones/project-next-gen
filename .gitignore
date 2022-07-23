@@ -5,6 +5,7 @@ yarn-error.log
 apps/**/prisma/db/
 .env
 .env.test
+coverage/
 
 ################
 # From vite app
