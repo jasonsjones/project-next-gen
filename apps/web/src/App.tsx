@@ -1,11 +1,16 @@
 import { useState } from 'react';
 import reactLogo from './assets/react.svg';
+import TextInput from './components/base/TextInput';
 
 function App() {
     const [count, setCount] = useState(0);
 
     return (
         <div className="h-screen flex flex-col justify-center items-center gap-8">
+            <div className="w-1/4">
+                <TextInput id="email" label="Email" type="email" />
+                <TextInput id="password" label="Password" type="password" className="mt-8" />
+            </div>
             <div className="flex gap-8">
                 <a href="https://vitejs.dev" target="_blank">
                     <img
