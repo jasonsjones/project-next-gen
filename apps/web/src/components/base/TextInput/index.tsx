@@ -1,20 +1,3 @@
-/*
-
-        <input
-            type={type}
-            class="peer h-10 border-b-2 border-gray-300 placeholder-transparent focus:border-indigo-400 focus:outline-none"
-            id={inputId}
-            placeholder={label}
-            onchange={handleChange}
-            oninput={handleInput}
-        />
-        <label
-            for={inputId}
-            class="absolute -top-3.5 left-0 text-gray-600 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-sm peer-focus:text-gray-600"
-            >{label}</label
-        >
-*/
-
 interface TextInputProps {
     id: string;
     label: string;
@@ -37,7 +20,7 @@ function TextInput({
                 id={id}
                 type={type}
                 placeholder={label}
-                className="peer h-10 border-b-2 border-gray-300 placeholder-transparent focus:border-indigo-400 focus:outline-none"
+                className="peer h-10 border-b-2 border-gray-300 placeholder-transparent focus:border-purple-700 focus:outline-none"
                 onChange={changeHandler}
             />
             <label
