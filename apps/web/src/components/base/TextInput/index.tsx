@@ -3,6 +3,7 @@ interface TextInputProps {
     label: string;
     type?: 'text' | 'email' | 'password';
     className?: string;
+    value: string;
     changeHandler?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -11,6 +12,7 @@ function TextInput({
     label,
     type = 'text',
     className,
+    value,
     changeHandler
 }: TextInputProps): JSX.Element {
     const classes = `relative flex flex-col ${className}`.trim();
@@ -21,6 +23,7 @@ function TextInput({
                 type={type}
                 placeholder={label}
                 className="peer h-10 border-b-2 border-gray-300 placeholder-transparent focus:border-purple-700 focus:outline-none"
+                value={value}
                 onChange={changeHandler}
             />
             <label
