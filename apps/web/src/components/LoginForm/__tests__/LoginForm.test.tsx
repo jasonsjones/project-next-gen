@@ -1,44 +1,41 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BASE_URL, server, rest } from '../../../testUtils/testServer';
 import LoginForm from '../index';
 
 const queryClient = new QueryClient();
 
-function renderComponent() {
-    return render(
-        <QueryClientProvider client={queryClient}>
-            <LoginForm />
-        </QueryClientProvider>
-    );
+function wrapper({ children }: { children: React.ReactNode }) {
+    return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }
 
 describe('LoginForm component', () => {
     afterEach(cleanup);
 
     it('renders a form', () => {
-        const { container } = renderComponent();
+        const { container } = render(<LoginForm />, { wrapper });
         expect(container.querySelector('form')).toBeTruthy();
     });
 
     it('renders a email field', () => {
-        renderComponent();
+        render(<LoginForm />, { wrapper });
         expect(screen.getByLabelText('Email')).toBeTruthy();
     });
 
     it('renders a password field', () => {
-        renderComponent();
+        render(<LoginForm />, { wrapper });
         expect(screen.getByLabelText('Password')).toBeTruthy();
     });
 
     it('renders a Login button', () => {
-        renderComponent();
+        render(<LoginForm />, { wrapper });
         expect(screen.getByText('Login')).toBeTruthy();
     });
 
     it('changes text on Login button when making api call', async () => {
-        renderComponent();
+        render(<LoginForm />, { wrapper });
 
         const emailInput = screen.getByLabelText('Email');
         const passwordInput = screen.getByLabelText('Password');
@@ -52,7 +49,7 @@ describe('LoginForm component', () => {
     });
 
     it('displays success message when valid credentials are provided', async () => {
-        renderComponent();
+        render(<LoginForm />, { wrapper });
 
         const emailInput = screen.getByLabelText('Email');
         const passwordInput = screen.getByLabelText('Password');
@@ -71,7 +68,7 @@ describe('LoginForm component', () => {
                 return res(ctx.status(401), ctx.json({ statusCode: 401, message: 'Unauthorized' }));
             })
         );
-        renderComponent();
+        render(<LoginForm />, { wrapper });
 
         const emailInput = screen.getByLabelText('Email');
         const passwordInput = screen.getByLabelText('Password');
