@@ -37,6 +37,9 @@
             "^.+\\.(ts|tsx)$": "ts-jest",
             "^.+\\.(svg|css)$": "<rootDir>/test/__mocks__/fileTransform.js"
         },
-        "testEnvironment": "jsdom"
+        "testEnvironment": "jsdom",
+        "setupFilesAfterEnv": [
+            "<rootDir>/test/testSetup.ts"
+        ]
     }
 }
