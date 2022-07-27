@@ -35,11 +35,11 @@
     "jest": {
         "transform": {
             "^.+\\.(ts|tsx)$": "ts-jest",
-            "^.+\\.(svg|css)$": "<rootDir>/test/__mocks__/fileTransform.js"
+            "^.+\\.(svg|css)$": "<rootDir>/src/testUtils/__mocks__/fileTransform.js"
         },
         "testEnvironment": "jsdom",
         "setupFilesAfterEnv": [
-            "<rootDir>/test/testSetup.ts"
+            "<rootDir>/src/testUtils/testSetup.ts"
         ]
     }
 }

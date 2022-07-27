@@ -1,7 +1,7 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { BASE_URL, server, rest } from '../../../../test/testServer';
+import { BASE_URL, server, rest } from '../../../testUtils/testServer';
 import LoginForm from '../index';
 
 const queryClient = new QueryClient();
