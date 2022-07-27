@@ -1,4 +1,5 @@
 import { useMutation } from 'react-query';
+import { makeLogin } from '../dataService';
 
 interface LoginCallbacks {
     onSuccess?: () => void;
@@ -6,25 +7,14 @@ interface LoginCallbacks {
 }
 
 export default function useLogin({ onSuccess, onError }: LoginCallbacks) {
-    return useMutation(
-        ({ email, password }: { email: string; password: string }) => {
-            return fetch('http://localhost:3000/api/v1/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, password })
-            }).then((res) => res.json());
+    return useMutation(makeLogin, {
+        onSuccess: (data) => {
+            if (data.statusCode === 401 && onError) {
+                onError();
+            } else {
+                onSuccess && onSuccess();
+            }
         },
-        {
-            onSuccess: (data) => {
-                if (data.statusCode === 401 && onError) {
-                    onError();
-                } else {
-                    onSuccess && onSuccess();
-                }
-            },
-            onError: onError
-        }
-    );
+        onError: onError
+    });
 }
