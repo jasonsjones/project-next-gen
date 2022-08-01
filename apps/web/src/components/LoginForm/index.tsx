@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useAuthContext } from '../../context/authContext';
 import useLogin from '../../hooks/useLogin';
 import Button from '../base/Button';
 import TextInput from '../base/TextInput';
@@ -8,6 +9,8 @@ interface LoginFormProps {
 }
 
 function LoginForm({ className }: LoginFormProps): JSX.Element {
+    const { login } = useAuthContext();
+
     const {
         mutate: doLogin,
         isLoading,
