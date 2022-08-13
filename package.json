@@ -15,13 +15,13 @@
         "test:api": "yarn workspace api test"
     },
     "devDependencies": {
-        "@types/node": "16.0.0",
+        "@types/node": "16.11.48",
         "prettier": "2.7.1",
         "typescript": "4.7.4",
-        "turbo": "1.3.4"
+        "turbo": "1.4.3"
     },
-    "license": "MIT",
     "volta": {
         "node": "16.16.0"
-    }
+    },
+    "license": "MIT"
 }
