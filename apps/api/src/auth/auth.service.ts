@@ -8,7 +8,7 @@ import { UsersService } from '../users/users.service';
 export class AuthService {
     constructor(
         private readonly userService: UsersService,
-        private readonly jwtServcie: JwtService
+        private readonly jwtService: JwtService
     ) {}
 
     async validateUser(email: string, password: string): Promise<User> {
@@ -34,6 +34,6 @@ export class AuthService {
 
     generateAccessToken(user: Partial<User>): string {
         const payload = { sub: user.id, email: user.email };
-        return this.jwtServcie.sign(payload, { expiresIn: '10m' });
+        return this.jwtService.sign(payload, { expiresIn: '10m' });
     }
 }
