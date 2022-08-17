@@ -36,4 +36,9 @@ export class AuthService {
         const payload = { sub: user.id, email: user.email };
         return this.jwtService.sign(payload, { expiresIn: '10m' });
     }
+
+    generateRefreshToken(user: Partial<User>): string {
+        const payload = { sub: user.id, email: user.email };
+        return this.jwtService.sign(payload, { expiresIn: '14d' });
+    }
 }
