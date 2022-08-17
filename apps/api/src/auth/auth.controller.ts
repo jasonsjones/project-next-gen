@@ -14,7 +14,7 @@ export class AuthController {
     @Post('/login')
     async login(@Req() req: Request, @Res() res: Response) {
         const refreshToken = this.authService.generateRefreshToken(req.user);
-        res.cookie('rtid', refreshToken, { httpOnly: true, sameSite: 'none', secure: true });
+        res.cookie('r-token', refreshToken, { httpOnly: true, sameSite: 'none', secure: true });
         return res.json(await this.authService.login(req.user));
     }
 }

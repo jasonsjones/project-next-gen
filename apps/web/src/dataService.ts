@@ -8,6 +8,7 @@ interface LoginBody {
 export async function makeLogin({ email, password }: LoginBody) {
     const res = await fetch(`${BASE_URL}/api/v1/auth/login`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json'
         },
