@@ -3,7 +3,17 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
 
-describe('UserController (e2e)', () => {
+function extractCookieValueFromResHeader(header: request.Response['header'], cookieName: string) {
+    let value: string;
+    const parts = header['set-cookie'][0].split(';');
+    const cookie = parts.filter((p: string) => p.includes(cookieName));
+    if (cookie.length === 1) {
+        value = cookie[0].split('=')[1];
+    }
+    return value;
+}
+
+describe('AuthController (e2e)', () => {
     let app: INestApplication;
 
     beforeEach(async () => {
@@ -20,8 +30,10 @@ describe('UserController (e2e)', () => {
             .post('/auth/login')
             .send({ email: 'oliver@qc.com', password: 'test1234' })
             .expect(200)
-            .expect(({ body }) => {
+            .expect(({ body, header }) => {
+                const refreshToken = extractCookieValueFromResHeader(header, 'r-token');
                 expect(body).toBeTruthy();
+                expect(refreshToken.length).toBeGreaterThan(10);
             });
     });
 });
