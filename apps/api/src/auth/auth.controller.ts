@@ -1,4 +1,4 @@
-import { Controller, HttpCode, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, HttpCode, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
@@ -16,5 +16,21 @@ export class AuthController {
         const refreshToken = this.authService.generateRefreshToken(req.user);
         res.cookie('r-token', refreshToken, { httpOnly: true, sameSite: 'none', secure: true });
         return res.json(await this.authService.login(req.user));
+    }
+
+    @Get('token')
+    async fetchToken(@Req() req: Request, @Res() res: Response) {
+        const refreshToken = this.authService.extractTokenFromCookie(req.cookies);
+        const result = await this.authService.fetchToken(refreshToken);
+
+        if (result.responsePayload.success && result.refreshToken) {
+            res.cookie('r-token', result.refreshToken, {
+                httpOnly: true,
+                sameSite: 'none',
+                secure: true
+            });
+        }
+
+        return res.json(result.responsePayload);
     }
 }

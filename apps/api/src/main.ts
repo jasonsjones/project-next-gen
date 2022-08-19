@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import cookieParser from 'cookie-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { PrismaService } from './prisma/prisma.service';
 import { AppModule } from './app.module';
@@ -10,6 +11,8 @@ async function bootstrap() {
         origin: ['http://localhost:4200'],
         credentials: true
     });
+
+    app.use(cookieParser());
 
     app.setGlobalPrefix('api/v1');
 
