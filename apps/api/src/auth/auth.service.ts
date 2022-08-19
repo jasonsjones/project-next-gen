@@ -91,7 +91,9 @@ export class AuthService {
     }
 
     extractTokenFromCookie(cookies: Record<string, string>): string | undefined {
-        return cookies['r-token'];
+        if (cookies) {
+            return cookies['r-token'];
+        }
     }
 
     verifyToken(token: string) {
