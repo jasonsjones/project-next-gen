@@ -5,9 +5,9 @@ import { AuthProvider, useAuthContext } from '../authContext';
 
 const TEST_TOKEN = 'this-is-a-test-token-value';
 
-jest.mock('../../hooks/useFetchToken', () => ({
+jest.mock('../../hooks', () => ({
     __esModule: true,
-    default: jest
+    useFetchToken: jest
         .fn()
         .mockImplementationOnce(() => {}) // first call
         .mockImplementationOnce((_, onSuccess) => {

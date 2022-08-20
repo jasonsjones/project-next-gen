@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import useFetchToken from '../hooks/useFetchToken';
+import { useFetchToken } from '../hooks';
 
 const REFETCH_INTERVAL_IN_MINS = 8;
 

@@ -7,7 +7,7 @@ interface LoginCallbacks {
     onError?: () => void;
 }
 
-export default function useLogin({ onSuccess, onError }: LoginCallbacks) {
+export function useLogin({ onSuccess, onError }: LoginCallbacks) {
     const { login } = useAuthContext();
 
     return useMutation(makeLogin, {

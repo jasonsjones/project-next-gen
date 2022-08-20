@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-jest.mock('./hooks/useFetchToken', () => ({
+jest.mock('./hooks', () => ({
+    ...jest.requireActual('./hooks'),
     __esModule: true,
-    default: jest.fn()
+    useFetchToken: jest.fn()
 }));
 
 describe('App', () => {

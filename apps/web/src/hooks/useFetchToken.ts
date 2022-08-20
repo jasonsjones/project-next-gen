@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { fetchToken } from '../dataService';
 
-export default function useFetchToken(
+export function useFetchToken(
     interval: number,
     onSuccessCb: (data: { success: boolean; access_token: string }) => void
 ) {
