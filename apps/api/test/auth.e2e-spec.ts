@@ -1,10 +1,11 @@
-import cookieParser from 'cookie-parser';
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
+import cookieParser from 'cookie-parser';
+import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { UsersService } from '../src/users/users.service';
 import { AuthService } from '../src/auth/auth.service';
+import { UsersService } from '../src/users/users.service';
 
 function extractCookieValueFromResHeader(header: request.Response['header'], cookieName: string) {
     let value: string;
@@ -72,19 +73,6 @@ describe('AuthController (e2e)', () => {
     });
 
     describe('/auth/token (GET)', () => {
-        it('does not return access token if refresh token is not provided', () => {
-            return request(app.getHttpServer())
-                .get('/auth/token')
-                .expect(200)
-                .expect(({ body, header }) => {
-                    const refreshToken = extractCookieValueFromResHeader(header, 'r-token');
-
-                    expect(body.success).toBe(false);
-                    expect(body.access_token).toBeNull();
-                    expect(refreshToken).toBeUndefined();
-                });
-        });
-
         it('returns access token when sent a valid refresh token', async () => {
             const ollie = await userService.findByEmail('oliver@qc.com');
             const validRefreshToken = authService.generateRefreshToken(ollie);
@@ -100,6 +88,59 @@ describe('AuthController (e2e)', () => {
                     expect(body.access_token).toBeTruthy();
                     expect(refreshToken).toBeTruthy();
                     expect(refreshToken.length).toBeGreaterThan(10);
+                });
+        });
+
+        it('sends 403 (forbidden) if refresh token is not provided', () => {
+            return request(app.getHttpServer())
+                .get('/auth/token')
+                .expect(403)
+                .expect(({ body, header }) => {
+                    const refreshToken = extractCookieValueFromResHeader(header, 'r-token');
+
+                    expect(body.access_token).toBeUndefined();
+                    expect(refreshToken).toBeUndefined();
+                });
+        });
+
+        it('sends 403 (forbidden) if refresh token is expired', async () => {
+            const twoHoursAgo = new Date();
+            twoHoursAgo.setHours(twoHoursAgo.getHours() - 2);
+            jest.spyOn(authService, 'verifyToken').mockImplementation(() => {
+                throw new TokenExpiredError('jwt expired', twoHoursAgo);
+            });
+
+            const ollie = await userService.findByEmail('oliver@qc.com');
+            const expiredRefreshToken = authService.generateRefreshToken(ollie);
+            return request(app.getHttpServer())
+                .get('/auth/token')
+                .set('Cookie', [`r-token=${expiredRefreshToken}`])
+                .expect(403)
+                .expect(({ body, header }) => {
+                    const refreshToken = extractCookieValueFromResHeader(header, 'r-token');
+
+                    expect(body.access_token).toBeUndefined();
+                    expect(refreshToken).toBeUndefined();
+                    expect(body.message).toBe('jwt expired');
+                });
+        });
+
+        it('sends 403 (forbidden) if refresh token is otherwise invalid', async () => {
+            jest.spyOn(authService, 'verifyToken').mockImplementation(() => {
+                throw new JsonWebTokenError('jwt malformed');
+            });
+            const ollie = await userService.findByEmail('oliver@qc.com');
+            const invalidRefreshToken = authService.generateRefreshToken(ollie);
+            return request(app.getHttpServer())
+                .get('/auth/token')
+                .set('Cookie', [`r-token=${invalidRefreshToken}`])
+                .expect(403)
+                .expect(({ body, header }) => {
+                    const refreshToken = extractCookieValueFromResHeader(header, 'r-token');
+
+                    expect(body.access_token).toBeUndefined();
+                    expect(refreshToken).toBeUndefined();
+                    expect(body.message).toBe('jwt malformed');
                 });
         });
     });

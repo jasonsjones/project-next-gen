@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
@@ -37,13 +37,7 @@ export class AuthService {
 
     async fetchToken(refreshToken: string) {
         if (!refreshToken) {
-            return {
-                refreshToken: null,
-                responsePayload: {
-                    success: false,
-                    access_token: null
-                }
-            };
+            throw new ForbiddenException('Refresh token not provided');
         }
 
         try {
@@ -59,15 +53,9 @@ export class AuthService {
                 }
             };
         } catch (err) {
-            // handle error eventually
-            console.log(err);
-            return {
-                refreshToken: null,
-                responsePayload: {
-                    success: false,
-                    access_token: null
-                }
-            };
+            if (err instanceof Error) {
+                throw new ForbiddenException(err.message);
+            }
         }
     }
 
