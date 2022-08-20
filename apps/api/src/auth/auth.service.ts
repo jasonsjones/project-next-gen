@@ -41,7 +41,7 @@ export class AuthService {
         }
 
         try {
-            const decoded = this.verifyToken(refreshToken);
+            const decoded = this.verifyRefreshToken(refreshToken);
             const user = await this.userService.findByEmail(decoded.email);
             // TODO: add separate check to verify some other piece of info to
             // ensure the refresh token is valid; e.g. refreshTokenSerial no.
@@ -65,9 +65,10 @@ export class AuthService {
     }
 
     generateRefreshToken(user: Partial<User>): string {
+        const secret = this.configService.get<string>('REFRESH_TOKEN_SECRET');
         // TODO: add another piece of info to the payload; e.g. refreshTokenSerial no.
         const payload = { sub: user.id, email: user.email };
-        return this.jwtService.sign(payload, { expiresIn: '14d' });
+        return this.jwtService.sign(payload, { secret, expiresIn: '14d' });
     }
 
     extractTokenFromHeaders(headers: IncomingHttpHeaders): string | undefined {
@@ -84,8 +85,8 @@ export class AuthService {
         }
     }
 
-    verifyToken(token: string) {
-        const secret = this.configService.get<string>('JWT_SECRET');
+    verifyRefreshToken(token: string) {
+        const secret = this.configService.get<string>('REFRESH_TOKEN_SECRET');
         return this.jwtService.verify(token, { secret });
     }
 }

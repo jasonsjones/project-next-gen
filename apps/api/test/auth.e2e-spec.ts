@@ -106,7 +106,7 @@ describe('AuthController (e2e)', () => {
         it('sends 403 (forbidden) if refresh token is expired', async () => {
             const twoHoursAgo = new Date();
             twoHoursAgo.setHours(twoHoursAgo.getHours() - 2);
-            jest.spyOn(authService, 'verifyToken').mockImplementation(() => {
+            jest.spyOn(authService, 'verifyRefreshToken').mockImplementation(() => {
                 throw new TokenExpiredError('jwt expired', twoHoursAgo);
             });
 
@@ -126,7 +126,7 @@ describe('AuthController (e2e)', () => {
         });
 
         it('sends 403 (forbidden) if refresh token is otherwise invalid', async () => {
-            jest.spyOn(authService, 'verifyToken').mockImplementation(() => {
+            jest.spyOn(authService, 'verifyRefreshToken').mockImplementation(() => {
                 throw new JsonWebTokenError('jwt malformed');
             });
             const ollie = await userService.findByEmail('oliver@qc.com');

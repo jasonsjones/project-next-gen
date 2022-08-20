@@ -19,7 +19,9 @@ import { LocalStrategy } from './local.strategy';
             imports: [ConfigModule],
             inject: [ConfigService],
             useFactory: async (configService: ConfigService) => ({
-                secret: configService.get<string>('JWT_SECRET') || 'defaultSuperSecretStringValue'
+                secret:
+                    configService.get<string>('ACCESS_TOKEN_SECRET') ||
+                    'defaultSuperSecretStringValue'
             })
         })
     ],
