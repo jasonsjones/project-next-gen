@@ -1,7 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('App title is visible', () => {
-    render(<App />);
-    expect(screen.getByText(/Vite \+ React/i)).toBeInTheDocument();
+jest.mock('./hooks/useFetchToken', () => ({
+    __esModule: true,
+    default: jest.fn()
+}));
+
+describe('App', () => {
+    it('title is visible', async () => {
+        render(<App />);
+        expect(await screen.findByText(/Vite \+ React/i)).toBeInTheDocument();
+    });
 });

@@ -1,8 +1,20 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AuthProvider, useAuthContext } from '../authContext';
 
 const TEST_TOKEN = 'this-is-a-test-token-value';
+
+jest.mock('../../hooks/useFetchToken', () => ({
+    __esModule: true,
+    default: jest
+        .fn()
+        .mockImplementationOnce(() => {}) // first call
+        .mockImplementationOnce((_, onSuccess) => {
+            onSuccess({ success: true, access_token: TEST_TOKEN });
+        }) // second call
+        .mockImplementation(() => {}) // remaining calls
+}));
 
 function wrapper({ children }: { children: React.ReactNode }) {
     return <AuthProvider>{children}</AuthProvider>;
@@ -20,12 +32,21 @@ function AuthConsumer(): JSX.Element {
     );
 }
 describe('AuthContext', () => {
-    it('initializes with default token value', () => {
+    // Make use of the 'first call' implementation of the above mock;
+    // order matters from the first two tests
+    it('initializes with default token value', async () => {
         render(<AuthConsumer />, { wrapper });
-        expect(screen.getByText(/^Token/)).toHaveTextContent('Token value:');
+        expect(await screen.findByText(/^Token/)).toHaveTextContent('Token value:');
     });
 
-    it('updates the token value on login', async () => {
+    // Make use of the 'second call' implementation of the above mock;
+    // order matters from the first two tests
+    it('sets the token value with response from useFetchToken', async () => {
+        render(<AuthConsumer />, { wrapper });
+        await screen.findByText(new RegExp(TEST_TOKEN));
+    });
+
+    it('sets the token value on login', async () => {
         render(<AuthConsumer />, { wrapper });
         const button = screen.getByText(/Login/);
         await userEvent.click(button);
