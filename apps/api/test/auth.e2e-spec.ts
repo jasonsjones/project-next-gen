@@ -72,6 +72,22 @@ describe('AuthController (e2e)', () => {
         });
     });
 
+    describe('/auth/logout (POST)', () => {
+        it('returns simple logout payload', () => {
+            return request(app.getHttpServer())
+                .post('/auth/logout')
+                .expect(200)
+                .expect(({ body }) => {
+                    expect(body).toEqual(
+                        expect.objectContaining({
+                            success: true,
+                            access_token: null
+                        })
+                    );
+                });
+        });
+    });
+
     describe('/auth/token (GET)', () => {
         it('returns access token when sent a valid refresh token', async () => {
             const ollie = await userService.findByEmail('oliver@qc.com');

@@ -35,6 +35,13 @@ export class AuthService {
         };
     }
 
+    logout() {
+        return {
+            success: true,
+            access_token: null
+        };
+    }
+
     async fetchToken(refreshToken: string) {
         if (!refreshToken) {
             throw new ForbiddenException('Refresh token not provided');

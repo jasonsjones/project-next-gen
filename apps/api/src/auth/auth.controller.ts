@@ -21,6 +21,14 @@ export class AuthController {
         return res.json(await this.authService.login(req.user));
     }
 
+    @HttpCode(200)
+    @Post('/logout')
+    logout(@Req() _: Request, @Res() res: Response) {
+        res.clearCookie('r-token');
+        res.clearCookie('authd');
+        return res.json(this.authService.logout());
+    }
+
     @Get('token')
     async fetchToken(@Req() req: Request, @Res() res: Response) {
         const refreshToken = this.authService.extractTokenFromCookie(req.cookies);
