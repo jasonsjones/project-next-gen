@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { PrismaTestService } from './prisma-test.service';
+import { ConfigModule } from '@nestjs/config';
 
 const prismaServiceProvider = {
     provide: PrismaService,
@@ -8,6 +9,7 @@ const prismaServiceProvider = {
 };
 
 @Module({
+    imports: [ConfigModule],
     providers: [prismaServiceProvider],
     exports: [PrismaService]
 })
