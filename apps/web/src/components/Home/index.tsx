@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import reactLogo from '../../assets/react.svg';
 import { useAuthContext } from '../../context/authContext';
+import { useLogout } from '../../hooks';
 import Button from '../base/Button';
 import LoginForm from '../LoginForm';
 
 function Home(): JSX.Element {
     const [count, setCount] = useState(0);
     const { token } = useAuthContext();
+
+    const { mutate: doLogout } = useLogout();
 
     return (
         <div className="h-screen flex flex-col justify-center items-center gap-8">
@@ -18,6 +21,14 @@ function Home(): JSX.Element {
                             Token:{' '}
                             <span className="text-sm text-gray-400 break-words">{token}</span>
                         </p>
+                        <Button
+                            variant="primary"
+                            type="button"
+                            className="mt-8 w-full"
+                            clickAction={() => doLogout()}
+                        >
+                            Logout
+                        </Button>
                     </div>
                 </>
             ) : (
