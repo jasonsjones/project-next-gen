@@ -26,6 +26,14 @@ export async function makeLogin({ email, password }: LoginBody) {
     return await res.json();
 }
 
+export async function makeLogout() {
+    const res = await fetch(`${BASE_URL}/api/v1/auth/logout`, {
+        method: 'POST',
+        credentials: 'include'
+    });
+    return await res.json();
+}
+
 export async function fetchToken() {
     if (getCookieValue('authd')) {
         const res = await fetch(`${BASE_URL}/api/v1/auth/token`, {
