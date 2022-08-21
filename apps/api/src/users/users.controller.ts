@@ -1,20 +1,24 @@
 import {
-    Controller,
-    Get,
-    Post,
     Body,
-    Patch,
-    Param,
+    Controller,
     Delete,
+    Get,
+    Param,
+    Patch,
+    Post,
     UploadedFile,
+    UseGuards,
     UseInterceptors
 } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
+import { User } from '@prisma/client';
+import multer from 'multer';
+import { CtxUser } from '../auth/ctx-user.decorator';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
-import multer from 'multer';
-import { ApiTags } from '@nestjs/swagger';
+import { UsersService } from './users.service';
 
 @ApiTags('Users')
 @Controller('users')
@@ -29,6 +33,12 @@ export class UsersController {
     @Get()
     findAll() {
         return this.usersService.findAll();
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('me')
+    me(@CtxUser() user: User) {
+        return { user };
     }
 
     @Get(':id')
