@@ -1,19 +1,23 @@
 import { Controller, Get, HttpCode, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
+import { AuthUtilsService } from '../utils/auth-utils.service';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './local-auth.guard';
 
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
-    constructor(private readonly authService: AuthService) {}
+    constructor(
+        private readonly authService: AuthService,
+        private readonly authUtilsService: AuthUtilsService
+    ) {}
 
     @UseGuards(LocalAuthGuard)
     @HttpCode(200)
     @Post('/login')
     async login(@Req() req: Request, @Res() res: Response) {
-        const refreshToken = this.authService.generateRefreshToken(req.user);
+        const refreshToken = this.authUtilsService.generateRefreshToken(req.user);
         res.cookie('r-token', refreshToken, { httpOnly: true, sameSite: 'none', secure: true });
         // Add additional cookie that can be read by the client to be able to determine
         // the existence of the http only refresh token cookie.

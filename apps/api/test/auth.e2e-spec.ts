@@ -4,8 +4,8 @@ import cookieParser from 'cookie-parser';
 import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { AuthService } from '../src/auth/auth.service';
 import { UsersService } from '../src/users/users.service';
+import { AuthUtilsService } from '../src/utils/auth-utils.service';
 
 function extractCookieValueFromResHeader(header: request.Response['header'], cookieName: string) {
     let value: string;
@@ -22,7 +22,7 @@ function extractCookieValueFromResHeader(header: request.Response['header'], coo
 describe('AuthController (e2e)', () => {
     let app: INestApplication;
     let userService: UsersService;
-    let authService: AuthService;
+    let authUtilsService: AuthUtilsService;
 
     beforeEach(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -30,7 +30,7 @@ describe('AuthController (e2e)', () => {
         }).compile();
 
         userService = moduleFixture.get<UsersService>(UsersService);
-        authService = moduleFixture.get<AuthService>(AuthService);
+        authUtilsService = moduleFixture.get<AuthUtilsService>(AuthUtilsService);
         app = moduleFixture.createNestApplication();
         app.use(cookieParser());
         await app.init();
@@ -91,7 +91,7 @@ describe('AuthController (e2e)', () => {
     describe('/auth/token (GET)', () => {
         it('returns access token when sent a valid refresh token', async () => {
             const ollie = await userService.findByEmail('oliver@qc.com');
-            const validRefreshToken = authService.generateRefreshToken(ollie);
+            const validRefreshToken = authUtilsService.generateRefreshToken(ollie);
 
             return request(app.getHttpServer())
                 .get('/auth/token')
@@ -122,12 +122,12 @@ describe('AuthController (e2e)', () => {
         it('sends 403 (forbidden) if refresh token is expired', async () => {
             const twoHoursAgo = new Date();
             twoHoursAgo.setHours(twoHoursAgo.getHours() - 2);
-            jest.spyOn(authService, 'verifyRefreshToken').mockImplementation(() => {
+            jest.spyOn(authUtilsService, 'verifyRefreshToken').mockImplementation(() => {
                 throw new TokenExpiredError('jwt expired', twoHoursAgo);
             });
 
             const ollie = await userService.findByEmail('oliver@qc.com');
-            const expiredRefreshToken = authService.generateRefreshToken(ollie);
+            const expiredRefreshToken = authUtilsService.generateRefreshToken(ollie);
             return request(app.getHttpServer())
                 .get('/auth/token')
                 .set('Cookie', [`r-token=${expiredRefreshToken}`])
@@ -142,11 +142,11 @@ describe('AuthController (e2e)', () => {
         });
 
         it('sends 403 (forbidden) if refresh token is otherwise invalid', async () => {
-            jest.spyOn(authService, 'verifyRefreshToken').mockImplementation(() => {
+            jest.spyOn(authUtilsService, 'verifyRefreshToken').mockImplementation(() => {
                 throw new JsonWebTokenError('jwt malformed');
             });
             const ollie = await userService.findByEmail('oliver@qc.com');
-            const invalidRefreshToken = authService.generateRefreshToken(ollie);
+            const invalidRefreshToken = authUtilsService.generateRefreshToken(ollie);
             return request(app.getHttpServer())
                 .get('/auth/token')
                 .set('Cookie', [`r-token=${invalidRefreshToken}`])

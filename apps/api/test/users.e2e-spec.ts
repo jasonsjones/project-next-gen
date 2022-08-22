@@ -1,14 +1,14 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
-import { AppModule } from './../src/app.module';
 import { UsersService } from '../src/users/users.service';
-import { AuthService } from '../src/auth/auth.service';
+import { AuthUtilsService } from '../src/utils/auth-utils.service';
+import { AppModule } from './../src/app.module';
 
 describe('UserController (e2e)', () => {
     let app: INestApplication;
     let userService: UsersService;
-    let authService: AuthService;
+    let authUtilsService: AuthUtilsService;
 
     beforeEach(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -16,7 +16,7 @@ describe('UserController (e2e)', () => {
         }).compile();
 
         userService = moduleFixture.get<UsersService>(UsersService);
-        authService = moduleFixture.get<AuthService>(AuthService);
+        authUtilsService = moduleFixture.get<AuthUtilsService>(AuthUtilsService);
         app = moduleFixture.createNestApplication();
         await app.init();
     });
@@ -50,7 +50,7 @@ describe('UserController (e2e)', () => {
 
         it('returns the context user when valid access token provided', async () => {
             const oliver = await userService.findByEmail('oliver@qc.com');
-            const token = authService.generateAccessToken(oliver);
+            const token = authUtilsService.generateAccessToken(oliver);
             return request(app.getHttpServer())
                 .get('/users/me')
                 .set('Authorization', `Bearer ${token}`)
