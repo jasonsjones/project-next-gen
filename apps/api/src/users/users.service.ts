@@ -1,20 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { User, Password } from '@prisma/client';
+import { Password, User } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import { PrismaService } from '../prisma/prisma.service';
+import { AuthUtilsService } from '../utils/auth-utils.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+
+interface SignupPayload {
+    access_token: string;
+    user: User;
+}
 
 @Injectable()
 export class UsersService {
     imageMemoryStore = new Map<string, Express.Multer.File>();
 
-    constructor(private prisma: PrismaService) {}
+    constructor(private prisma: PrismaService, private authUtilsService: AuthUtilsService) {}
 
-    async create(createUserDto: CreateUserDto): Promise<User> {
+    async create(createUserDto: CreateUserDto): Promise<SignupPayload> {
         const hashedPassword = await bcrypt.hash(createUserDto.password, 12);
 
-        return await this.prisma.user.create({
+        const user = await this.prisma.user.create({
             data: {
                 ...createUserDto,
                 password: {
@@ -24,6 +30,13 @@ export class UsersService {
                 }
             }
         });
+
+        const token = this.authUtilsService.generateAccessToken(user);
+
+        return {
+            access_token: token,
+            user
+        };
     }
 
     async findAll(): Promise<User[]> {

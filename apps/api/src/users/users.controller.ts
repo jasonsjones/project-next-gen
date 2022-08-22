@@ -6,6 +6,7 @@ import {
     Param,
     Patch,
     Post,
+    Res,
     UploadedFile,
     UseGuards,
     UseInterceptors
@@ -13,9 +14,11 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
+import { Response } from 'express';
 import multer from 'multer';
 import { CtxUser } from '../auth/ctx-user.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { AuthUtilsService } from '../utils/auth-utils.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
@@ -23,11 +26,19 @@ import { UsersService } from './users.service';
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
-    constructor(private readonly usersService: UsersService) {}
+    constructor(private authUtilsService: AuthUtilsService, private usersService: UsersService) {}
 
     @Post()
-    create(@Body() createUserDto: CreateUserDto) {
-        return this.usersService.create(createUserDto);
+    async create(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
+        const result = await this.usersService.create(createUserDto);
+        if (result.user) {
+            const refreshToken = this.authUtilsService.generateRefreshToken(result.user);
+            res.cookie('r-token', refreshToken, { httpOnly: true, sameSite: 'none', secure: true });
+            // Add additional cookie that can be read by the client to be able to determine
+            // the existence of the http only refresh token cookie.
+            res.cookie('authd', true, { httpOnly: false, sameSite: 'none', secure: true });
+            return res.json(result);
+        }
     }
 
     @Get()
