@@ -1,5 +1,12 @@
 const BASE_URL = 'http://localhost:3000';
 
+interface CreateUserDto {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+}
+
 interface LoginBody {
     email: string;
     password: string;
@@ -30,6 +37,18 @@ export async function makeLogout() {
     const res = await fetch(`${BASE_URL}/api/v1/auth/logout`, {
         method: 'POST',
         credentials: 'include'
+    });
+    return await res.json();
+}
+
+export async function makeSignup(dto: CreateUserDto) {
+    const res = await fetch(`${BASE_URL}/api/v1/users`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dto)
     });
     return await res.json();
 }
