@@ -4,7 +4,7 @@ import { setupServer } from 'msw/node';
 
 export const BASE_URL = 'http://localhost:3000';
 
-const loginSuccessResponse = {
+const authSuccessResponse = {
     access_token:
         'eyJhbGciOiJIUzI1NR5cCI6IkpXVCJ9.eyJzdWIiOiIzY2JkjDIzNDIsImV4cCI6MDg4Mjk0Mn0.NGtRnsX3NgRrAHBExlirJ6eg8W4aFZUE',
     user: {
@@ -19,7 +19,11 @@ const loginSuccessResponse = {
 
 const handlers: RequestHandler[] = [
     rest.post(`${BASE_URL}/api/v1/auth/login`, (_, res, ctx) => {
-        return res(ctx.status(200), ctx.json(loginSuccessResponse));
+        return res(ctx.status(200), ctx.json(authSuccessResponse));
+    }),
+
+    rest.post(`${BASE_URL}/api/v1/users`, (_, res, ctx) => {
+        return res(ctx.status(201), ctx.json(authSuccessResponse));
     }),
 
     rest.get('*', (req, res, ctx) => {

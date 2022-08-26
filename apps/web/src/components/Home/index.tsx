@@ -4,6 +4,7 @@ import { useAuthContext } from '../../context/authContext';
 import { useLogout } from '../../hooks';
 import Button from '../base/Button';
 import LoginForm from '../LoginForm';
+import SignupForm from '../SignupForm';
 
 function Home(): JSX.Element {
     const [count, setCount] = useState(0);
@@ -65,6 +66,11 @@ function Home(): JSX.Element {
                 </p>
             </div>
             <p className="text-slate-500">Click on the Vite and React logos to learn more</p>
+            <div className="w-1/3">
+                <hr className="mb-8 border-2 border-purple-200" />
+
+                {!token ? <SignupForm /> : null}
+            </div>
         </div>
     );
 }
