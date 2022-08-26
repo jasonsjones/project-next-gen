@@ -30,6 +30,12 @@ export async function makeLogin({ email, password }: LoginBody) {
         },
         body: JSON.stringify({ email, password })
     });
+
+    if (!res.ok) {
+        const cause = await res.json();
+        throw new Error(res.statusText, { cause });
+    }
+
     return await res.json();
 }
 
@@ -38,6 +44,12 @@ export async function makeLogout() {
         method: 'POST',
         credentials: 'include'
     });
+
+    if (!res.ok) {
+        const cause = await res.json();
+        throw new Error(res.statusText, { cause });
+    }
+
     return await res.json();
 }
 
@@ -50,6 +62,12 @@ export async function makeSignup(dto: CreateUserDto) {
         },
         body: JSON.stringify(dto)
     });
+
+    if (!res.ok) {
+        const cause = await res.json();
+        throw new Error(res.statusText, { cause });
+    }
+
     return await res.json();
 }
 
@@ -62,6 +80,12 @@ export async function fetchToken() {
                 'Content-Type': 'application/json'
             }
         });
+
+        if (!res.ok) {
+            const cause = await res.json();
+            throw new Error(res.statusText, { cause });
+        }
+
         return await res.json();
     }
 
