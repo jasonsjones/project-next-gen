@@ -11,7 +11,7 @@ function TextInput({
     id,
     label,
     type = 'text',
-    className,
+    className = '',
     value,
     changeHandler
 }: TextInputProps): JSX.Element {
