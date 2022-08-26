@@ -63,6 +63,9 @@ describe('LoginForm component', () => {
     });
 
     it('displays unauthorized message when invalid credentials are provided', async () => {
+        // supress console.error output for this test
+        jest.spyOn(console, 'error').mockImplementationOnce(() => {});
+
         server.use(
             rest.post(`${BASE_URL}/api/v1/auth/login`, (_, res, ctx) => {
                 return res(ctx.status(401), ctx.json({ statusCode: 401, message: 'Unauthorized' }));
