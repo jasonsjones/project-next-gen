@@ -1,14 +1,17 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Providers from './Providers';
 import Home from './pages/Home';
+import MainLayout from './layouts/mainLayout';
 
 function App() {
     return (
         <BrowserRouter>
             <Providers>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                </Routes>
+                <MainLayout>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                    </Routes>
+                </MainLayout>
             </Providers>
         </BrowserRouter>
     );

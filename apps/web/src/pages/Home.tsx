@@ -2,7 +2,7 @@ import reactLogo from '../assets/react.svg';
 
 function Home(): JSX.Element {
     return (
-        <div className="h-screen flex flex-col justify-center items-center gap-8">
+        <div className="flex flex-col justify-center items-center gap-8">
             <h1 className="text-5xl text-purple-800">Project Next Gen</h1>
             <div className="flex gap-8">
                 <a href="https://vitejs.dev" target="_blank">
