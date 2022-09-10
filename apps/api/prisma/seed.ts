@@ -9,12 +9,14 @@ const users: Prisma.UserCreateInput[] = [
     {
         firstName: 'Oliver',
         lastName: 'Queen',
-        email: 'oliver@qc.com'
+        email: 'oliver@qc.com',
+        roles: ['ADMIN']
     },
     {
         firstName: 'Barry',
         lastName: 'Allen',
-        email: 'barry@starlabs.com'
+        email: 'barry@starlabs.com',
+        roles: ['USER']
     }
 ];
 

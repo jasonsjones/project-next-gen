@@ -8,6 +8,8 @@
     ],
     "scripts": {
         "build": "turbo run build",
+        "container:start": "turbo run container:start",
+        "container:stop": "turbo run container:stop",
         "dev": "turbo run dev",
         "lint": "turbo run lint",
         "format": "prettier --write \"./**/*.{ts,tsx,md}\"",

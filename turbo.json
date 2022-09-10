@@ -1,7 +1,12 @@
 {
     "$schema": "https://turborepo.org/schema.json",
-    "baseBranch": "origin/main",
     "pipeline": {
+        "container:start": {
+            "cache": false
+        },
+        "container:stop": {
+            "cache": false
+        },
         "build": {
             "outputs": ["dist/**"]
         },

@@ -8,12 +8,17 @@
     "scripts": {
         "prebuild": "rimraf dist",
         "build": "nest build",
+        "clean": "rm -rf dist coverage",
+        "container:start": "ts-node scripts/container-start",
+        "container:stop": "ts-node scripts/container-stop",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
         "dev": "nest start --watch",
         "start": "nest start",
         "start:debug": "nest start --debug --watch",
         "start:prod": "node dist/main",
-        "migrate:db:test": "dotenv -e .env.test prisma migrate dev --name init-test",
+        "migrate:db:test": "dotenv -e .env.test prisma migrate deploy",
+        "seed:db:test": "dotenv -e .env.test prisma db seed",
+        "studio:db:test": "dotenv -e .env.test prisma studio",
         "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
         "test": "jest --colors --runInBand",
         "test:watch": "jest --watch",
@@ -38,7 +43,6 @@
         "reflect-metadata": "0.1.13",
         "rimraf": "3.0.2",
         "rxjs": "7.5.6",
-        "sqlite3": "5.0.11",
         "swagger-ui-express": "4.5.0"
     },
     "devDependencies": {

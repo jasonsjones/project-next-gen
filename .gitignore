@@ -6,6 +6,7 @@ apps/**/prisma/db/
 .env
 .env.test
 coverage/
+data/
 
 ################
 # From vite app

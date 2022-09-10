@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+    mailhog:
+        container_name: mailhog
+        image: mailhog/mailhog:latest
+        restart: unless-stopped
+        ports:
+            - '1025:1025'
+            - '8025:8025'
+        networks:
+            - sandbox
+
+    postgres:
+        container_name: pdb
+        image: postgres:13-alpine
+        restart: unless-stopped
+        ports:
+            - '5432:5432'
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER:-postgres}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+        networks:
+            - sandbox
+        volumes:
+            - ./data/postgres:/var/lib/postgresql/data
+            - .:/home/desc/
+
+    pgadmin:
+        container_name: pgadmin
+        image: dpage/pgadmin4:latest
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+        volumes:
+            - ./data/pgadmin:/var/lib/pgadmin
+        ports:
+            - '${PGADMIN_PORT:-5055}:80'
+        networks:
+            - sandbox
+        restart: unless-stopped
+
+networks:
+    sandbox:
+        driver: bridge
