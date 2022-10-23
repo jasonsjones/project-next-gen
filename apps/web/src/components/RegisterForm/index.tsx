@@ -7,7 +7,7 @@ interface SignupFormProps {
     className?: string;
 }
 
-function SignupForm({ className }: SignupFormProps): JSX.Element {
+function RegisterForm({ className }: SignupFormProps): JSX.Element {
     const { mutate: doSubmit } = useSignup({
         onSuccess: clearForm,
         onError: () => {
@@ -41,7 +41,7 @@ function SignupForm({ className }: SignupFormProps): JSX.Element {
                 lastName: formValues.lastName
             });
         } else {
-            setError('Missing required information');
+            setError('Required information missing');
         }
     }
 
@@ -67,7 +67,6 @@ function SignupForm({ className }: SignupFormProps): JSX.Element {
 
     return (
         <>
-            <h1 className="text-3xl text-center mb-8">Create Account</h1>
             <form className={className} onSubmit={handleSubmit}>
                 <div className="flex gap-8">
                     <TextInput
@@ -112,4 +111,4 @@ function SignupForm({ className }: SignupFormProps): JSX.Element {
     );
 }
 
-export default SignupForm;
+export default RegisterForm;

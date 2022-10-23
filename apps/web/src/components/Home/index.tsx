@@ -4,7 +4,7 @@ import { useAuthContext } from '../../context/authContext';
 import { useLogout } from '../../hooks';
 import Button from '../base/Button';
 import LoginForm from '../LoginForm';
-import SignupForm from '../SignupForm';
+import SignupForm from '../RegisterForm';
 
 function Home(): JSX.Element {
     const [count, setCount] = useState(0);
