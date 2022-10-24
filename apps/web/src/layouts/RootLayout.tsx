@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 
-function MainLayout({ children }: { children: React.ReactNode }): JSX.Element {
+function RootLayout({ children }: { children: React.ReactNode }): JSX.Element {
     return (
         <div className="flex flex-col h-screen">
             <Navbar />
@@ -11,4 +11,4 @@ function MainLayout({ children }: { children: React.ReactNode }): JSX.Element {
     );
 }
 
-export default MainLayout;
+export default RootLayout;
