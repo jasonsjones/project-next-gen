@@ -2,7 +2,7 @@ import { useMutation } from 'react-query';
 import { useAuthContext } from '../context/authContext';
 import { makeLogout } from '../dataService';
 
-export function useLogout() {
+export function useLogout(onSuccessCb?: () => void) {
     const { logout } = useAuthContext();
 
     return useMutation(makeLogout, {
@@ -10,6 +10,7 @@ export function useLogout() {
             if (data.success) {
                 logout();
             }
+            onSuccessCb && onSuccessCb();
         }
     });
 }
