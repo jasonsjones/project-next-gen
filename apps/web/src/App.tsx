@@ -9,13 +9,13 @@ function App() {
     return (
         <BrowserRouter>
             <Providers>
-                <RootLayout>
-                    <Routes>
-                        <Route path="/" element={<Home />} />
+                <Routes>
+                    <Route path="/" element={<RootLayout />}>
+                        <Route index element={<Home />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
-                    </Routes>
-                </RootLayout>
+                    </Route>
+                </Routes>
             </Providers>
         </BrowserRouter>
     );
