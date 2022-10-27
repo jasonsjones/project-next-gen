@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useLogout } from '../../hooks';
 
 function AuthenticatedLinks(): JSX.Element {
@@ -10,6 +10,16 @@ function AuthenticatedLinks(): JSX.Element {
 
     return (
         <ul className="grow flex gap-6 justify-end">
+            <li>
+                <NavLink
+                    to="profile"
+                    className={({ isActive }) =>
+                        isActive ? 'text-slate-600' : 'hover:text-slate-600'
+                    }
+                >
+                    Profile
+                </NavLink>
+            </li>
             <li>
                 <button className="hover:text-slate-600" onClick={() => doLogout()}>
                     Log out
