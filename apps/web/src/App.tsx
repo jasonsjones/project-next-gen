@@ -5,6 +5,7 @@ import RootLayout from './layouts/RootLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import UserProfile from './pages/UserProfile';
+import ProtectedRoutes from './components/ProtectedRoutes';
 
 function App() {
     return (
@@ -15,7 +16,9 @@ function App() {
                         <Route index element={<Home />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
-                        <Route path="/profile" element={<UserProfile />} />
+                        <Route element={<ProtectedRoutes />}>
+                            <Route path="/profile" element={<UserProfile />} />
+                        </Route>
                     </Route>
                 </Routes>
             </Providers>
