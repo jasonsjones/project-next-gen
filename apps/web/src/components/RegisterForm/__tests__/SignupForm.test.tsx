@@ -51,7 +51,7 @@ describe('SignupForm component', () => {
         await userEvent.type(passwordInput, '123456');
         await userEvent.click(signupButton);
 
-        await screen.findByText(/missing required information/i);
+        await screen.findByText(/required information missing/i);
     });
 
     it('displays error message if the last name is not provided', async () => {
@@ -67,7 +67,7 @@ describe('SignupForm component', () => {
         await userEvent.type(passwordInput, '123456');
         await userEvent.click(signupButton);
 
-        await screen.findByText(/missing required information/i);
+        await screen.findByText(/required information missing/i);
     });
 
     it('displays error message if the email is not provided', async () => {
@@ -83,7 +83,7 @@ describe('SignupForm component', () => {
         await userEvent.type(passwordInput, '123456');
         await userEvent.click(signupButton);
 
-        await screen.findByText(/missing required information/i);
+        await screen.findByText(/required information missing/i);
     });
 
     it('displays error message if the password is not provided', async () => {
@@ -99,7 +99,7 @@ describe('SignupForm component', () => {
         await userEvent.type(emailInput, 'valid-user@test.com');
         await userEvent.click(signupButton);
 
-        await screen.findByText(/missing required information/i);
+        await screen.findByText(/required information missing/i);
     });
 
     it('clears the form on successful submission', async () => {
