@@ -1,20 +1,13 @@
 import 'whatwg-fetch';
 import { RequestHandler, rest } from 'msw';
 import { setupServer } from 'msw/node';
+import { testUser, TEST_TOKEN } from './fixtures';
 
 export const BASE_URL = 'http://localhost:3000';
 
 const authSuccessResponse = {
-    access_token:
-        'eyJhbGciOiJIUzI1NR5cCI6IkpXVCJ9.eyJzdWIiOiIzY2JkjDIzNDIsImV4cCI6MDg4Mjk0Mn0.NGtRnsX3NgRrAHBExlirJ6eg8W4aFZUE',
-    user: {
-        id: '3cbd5f5a-3aec-4056-be7a-a1db2500ae93',
-        email: 'oliver@qc.com',
-        firstName: 'Oliver',
-        lastName: 'Queen',
-        createdAt: '2022-07-21T03:55:49.068Z',
-        updatedAt: '2022-07-21T03:55:49.068Z'
-    }
+    access_token: TEST_TOKEN,
+    user: testUser
 };
 
 const handlers: RequestHandler[] = [

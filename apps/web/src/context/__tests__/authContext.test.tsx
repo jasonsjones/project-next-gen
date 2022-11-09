@@ -1,18 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { testUser, TEST_TOKEN } from '../../testUtils/fixtures';
 import { AuthProvider, useAuthContext } from '../authContext';
-
-const TEST_TOKEN = 'this-is-a-test-token-value';
-const testUser = {
-    id: '24441c91-d331-4359-b874-d2c68160093a',
-    email: 'oliver@qc.com',
-    firstName: 'Oliver',
-    lastName: 'Queen',
-    roles: ['ADMIN'],
-    createdAt: '2022-10-12T01:59:04.870Z',
-    updatedAt: '2022-10-12T01:59:04.870Z'
-};
 
 jest.mock('../../hooks', () => ({
     __esModule: true,
