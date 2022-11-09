@@ -16,7 +16,7 @@ export function useLogin({ onSuccess, onError }: LoginCallbacks) {
                 onError();
             } else {
                 onSuccess && onSuccess();
-                login(data?.access_token);
+                login(data?.access_token, data?.user);
             }
         },
         onError: onError

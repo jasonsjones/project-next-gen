@@ -13,7 +13,7 @@ export function useSignup({ onSuccess, onError }: SignupCallbacks) {
     return useMutation(makeSignup, {
         onSuccess: (data) => {
             if (data?.access_token) {
-                login(data?.access_token);
+                login(data?.access_token, data?.user);
             }
 
             if (onSuccess) {
