@@ -92,7 +92,7 @@ export async function fetchToken() {
     return Promise.resolve({ msg: 'token not available' });
 }
 
-export async function fetchMe({ queryKey }: any) {
+export async function fetchMe({ queryKey }: { queryKey: string[] }) {
     const [, token] = queryKey;
     const res = await fetch(`${BASE_URL}/api/v1/users/me`, {
         method: 'GET',
