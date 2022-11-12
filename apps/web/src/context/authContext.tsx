@@ -1,17 +1,8 @@
 import { createContext, useContext, useState } from 'react';
 import { useFetchToken } from '../hooks';
+import { User } from '../types';
 
 const REFETCH_INTERVAL_IN_MINS = 8;
-
-interface User {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    roles: string[];
-    createdAt: string;
-    updatedAt: string;
-}
 
 interface AuthContextProps {
     contextUser: User | null;
@@ -38,8 +29,12 @@ function AuthProvider({ children }: { children: React.ReactNode }): JSX.Element 
     const [contextUser, setContextUser] = useState<User | null>(null);
 
     useFetchToken(REFETCH_INTERVAL_IN_MINS, (data) => {
-        if (data?.success) {
+        if (data?.access_token) {
             setToken(data.access_token);
+        }
+
+        if (data?.user) {
+            setContextUser(data.user);
         }
     });
 

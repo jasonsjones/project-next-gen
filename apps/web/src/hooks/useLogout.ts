@@ -7,7 +7,7 @@ export function useLogout(onSuccessCb?: () => void) {
 
     return useMutation(makeLogout, {
         onSuccess: (data) => {
-            if (data.success) {
+            if (!data.access_token) {
                 logout();
             }
             onSuccessCb && onSuccessCb();

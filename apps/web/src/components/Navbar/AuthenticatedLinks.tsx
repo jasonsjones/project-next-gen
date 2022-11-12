@@ -1,8 +1,11 @@
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../context/authContext';
 import { useLogout } from '../../hooks';
 
 function AuthenticatedLinks(): JSX.Element {
     const navigate = useNavigate();
+
+    const { contextUser } = useAuthContext();
 
     const { mutate: doLogout } = useLogout(() => {
         navigate('/');
@@ -17,7 +20,7 @@ function AuthenticatedLinks(): JSX.Element {
                         isActive ? 'text-slate-600' : 'hover:text-slate-600'
                     }
                 >
-                    Profile
+                    {contextUser?.firstName} {contextUser?.lastName}
                 </NavLink>
             </li>
             <li>
