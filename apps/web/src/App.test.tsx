@@ -4,7 +4,7 @@ import App from './App';
 jest.mock('./hooks', () => ({
     ...jest.requireActual('./hooks'),
     __esModule: true,
-    useFetchToken: jest.fn()
+    useFetchToken: jest.fn().mockImplementation(() => ({ isLoading: false }))
 }));
 
 describe('App', () => {

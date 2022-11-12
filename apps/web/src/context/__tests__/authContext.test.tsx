@@ -8,11 +8,12 @@ jest.mock('../../hooks', () => ({
     __esModule: true,
     useFetchToken: jest
         .fn()
-        .mockImplementationOnce(() => {}) // first call
+        .mockImplementationOnce(() => ({ isLoading: false })) // first call
         .mockImplementationOnce((_, onSuccess) => {
-            onSuccess({ success: true, access_token: TEST_TOKEN });
+            onSuccess({ access_token: TEST_TOKEN, user: testUser });
+            return { isLoading: false };
         }) // second call
-        .mockImplementation(() => {}) // remaining calls
+        .mockImplementation(() => ({ isLoading: false })) // remaining calls
 }));
 
 function wrapper({ children }: { children: React.ReactNode }) {

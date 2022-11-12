@@ -1,7 +1,15 @@
 import { Outlet } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import Spinner from '../components/Spinner';
+import { useAuthContext } from '../context/authContext';
 
 function RootLayout(): JSX.Element {
+    const { isFetchingToken } = useAuthContext();
+
+    if (isFetchingToken) {
+        return <Spinner />;
+    }
+
     return (
         <div className="flex flex-col h-screen">
             <Navbar />

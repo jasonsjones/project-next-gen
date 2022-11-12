@@ -1,7 +1,11 @@
 import { useFetchMe } from '../../hooks';
 
-function UserDetails(): JSX.Element {
-    const { data } = useFetchMe();
+function UserDetails(): JSX.Element | null {
+    const { data, isLoading } = useFetchMe();
+
+    if (isLoading) {
+        return null;
+    }
 
     return (
         <div className="flex gap-8 items-center">

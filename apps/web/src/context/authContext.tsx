@@ -7,6 +7,7 @@ const REFETCH_INTERVAL_IN_MINS = 8;
 interface AuthContextProps {
     contextUser: User | null;
     token: string;
+    isFetchingToken: boolean;
     login: (token: string, user: User) => void;
     logout: () => void;
 }
@@ -14,6 +15,7 @@ interface AuthContextProps {
 const initialState: AuthContextProps = {
     contextUser: null,
     token: '',
+    isFetchingToken: false,
     login: () => {
         /* empty fn body */
     },
@@ -28,7 +30,7 @@ function AuthProvider({ children }: { children: React.ReactNode }): JSX.Element 
     const [token, setToken] = useState('');
     const [contextUser, setContextUser] = useState<User | null>(null);
 
-    useFetchToken(REFETCH_INTERVAL_IN_MINS, (data) => {
+    const { isLoading: isFetchingToken } = useFetchToken(REFETCH_INTERVAL_IN_MINS, (data) => {
         if (data?.access_token) {
             setToken(data.access_token);
         }
@@ -48,7 +50,7 @@ function AuthProvider({ children }: { children: React.ReactNode }): JSX.Element 
         setContextUser(null);
     };
 
-    const value = { contextUser, token, login, logout };
+    const value = { contextUser, token, isFetchingToken, login, logout };
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
