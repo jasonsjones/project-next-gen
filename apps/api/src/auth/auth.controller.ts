@@ -38,7 +38,7 @@ export class AuthController {
         const refreshToken = this.authService.extractTokenFromCookie(req.cookies);
         const result = await this.authService.fetchToken(refreshToken);
 
-        if (result.responsePayload.success && result.refreshToken) {
+        if (result.responsePayload.access_token && result.refreshToken) {
             res.cookie('r-token', result.refreshToken, {
                 httpOnly: true,
                 sameSite: 'none',

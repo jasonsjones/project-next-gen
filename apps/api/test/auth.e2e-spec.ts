@@ -80,8 +80,8 @@ describe('AuthController (e2e)', () => {
                 .expect(({ body }) => {
                     expect(body).toEqual(
                         expect.objectContaining({
-                            success: true,
-                            access_token: null
+                            access_token: null,
+                            user: null
                         })
                     );
                 });
@@ -100,8 +100,8 @@ describe('AuthController (e2e)', () => {
                 .expect(({ body, header }) => {
                     const refreshToken = extractCookieValueFromResHeader(header, 'r-token');
 
-                    expect(body.success).toBe(true);
                     expect(body.access_token).toBeTruthy();
+                    expect(body.user).toBeTruthy();
                     expect(refreshToken).toBeTruthy();
                     expect(refreshToken.length).toBeGreaterThan(10);
                 });
@@ -115,6 +115,7 @@ describe('AuthController (e2e)', () => {
                     const refreshToken = extractCookieValueFromResHeader(header, 'r-token');
 
                     expect(body.access_token).toBeUndefined();
+                    expect(body.user).toBeUndefined();
                     expect(refreshToken).toBeUndefined();
                 });
         });
@@ -136,6 +137,7 @@ describe('AuthController (e2e)', () => {
                     const refreshToken = extractCookieValueFromResHeader(header, 'r-token');
 
                     expect(body.access_token).toBeUndefined();
+                    expect(body.user).toBeUndefined();
                     expect(refreshToken).toBeUndefined();
                     expect(body.message).toBe('jwt expired');
                 });
@@ -155,6 +157,7 @@ describe('AuthController (e2e)', () => {
                     const refreshToken = extractCookieValueFromResHeader(header, 'r-token');
 
                     expect(body.access_token).toBeUndefined();
+                    expect(body.user).toBeUndefined();
                     expect(refreshToken).toBeUndefined();
                     expect(body.message).toBe('jwt malformed');
                 });
