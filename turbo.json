@@ -10,6 +10,9 @@
         "build": {
             "outputs": ["dist/**"]
         },
+        "clean": {
+            "outputs": []
+        },
         "dev": {
             "cache": false
         },

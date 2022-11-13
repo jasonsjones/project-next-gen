@@ -6,6 +6,7 @@
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build",
+        "clean": "rm -rf dist coverage",
         "preview": "vite preview",
         "lint": "eslint \"src/**/*.{ts,tsx}\" --fix",
         "test": "jest --colors --runInBand"
