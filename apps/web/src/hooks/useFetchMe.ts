@@ -1,8 +1,12 @@
 import { useQuery } from 'react-query';
 import { useAuthContext } from '../context/authContext';
-import { fetchMe } from '../dataService';
+import { generateFetchMe } from '../dataService';
 
 export function useFetchMe() {
     const { token } = useAuthContext();
-    return useQuery(['fetchMe', token], fetchMe);
+    return useQuery({
+        queryKey: 'me',
+        queryFn: generateFetchMe(token),
+        staleTime: 3 * 60 * 1000
+    });
 }

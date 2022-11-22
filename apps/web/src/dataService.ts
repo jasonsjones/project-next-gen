@@ -92,6 +92,26 @@ export async function fetchToken() {
     return Promise.resolve({ msg: 'token not available' });
 }
 
+export function generateFetchMe(token: string) {
+    return async () => {
+        const res = await fetch(`${BASE_URL}/api/v1/users/me`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        if (!res.ok) {
+            const cause = await res.json();
+            throw new Error(res.statusText, { cause });
+        }
+
+        return await res.json();
+    };
+}
+
 export async function fetchMe({ queryKey }: { queryKey: string[] }) {
     const [, token] = queryKey;
     const res = await fetch(`${BASE_URL}/api/v1/users/me`, {
