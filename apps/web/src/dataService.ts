@@ -1,16 +1,6 @@
+import { LoginBody, User, UserCreateDto, UserUpdateDto } from './types';
+
 const BASE_URL = 'http://localhost:3000';
-
-interface CreateUserDto {
-    email: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-}
-
-interface LoginBody {
-    email: string;
-    password: string;
-}
 
 function getCookieValue(key: string) {
     const cookieValue = document.cookie
@@ -53,7 +43,7 @@ export async function makeLogout() {
     return await res.json();
 }
 
-export async function makeSignup(dto: CreateUserDto) {
+export async function makeSignup(dto: UserCreateDto) {
     const res = await fetch(`${BASE_URL}/api/v1/users`, {
         method: 'POST',
         credentials: 'include',
