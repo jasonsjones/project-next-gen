@@ -7,8 +7,10 @@ function AuthenticatedLinks(): JSX.Element {
 
     const { contextUser } = useAuthContext();
 
-    const { mutate: doLogout } = useLogout(() => {
-        navigate('/');
+    const { mutate: doLogout } = useLogout({
+        clientActionSuccess: () => {
+            navigate('/');
+        }
     });
 
     return (

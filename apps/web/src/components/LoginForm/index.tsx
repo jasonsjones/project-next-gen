@@ -13,8 +13,8 @@ function LoginForm({ className }: LoginFormProps): JSX.Element {
         isLoading,
         data
     } = useLogin({
-        onSuccess: clearForm,
-        onError: () => {
+        clientActionSuccess: clearForm,
+        clientActionError: () => {
             setError('⛔ Unauthorized. Please try again.');
         }
     });

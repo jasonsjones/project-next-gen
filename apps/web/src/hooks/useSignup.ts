@@ -1,13 +1,9 @@
 import { useMutation } from 'react-query';
 import { useAuthContext } from '../context/authContext';
 import { makeSignup } from '../dataService';
+import { ClientActions } from '../types';
 
-interface SignupCallbacks {
-    onSuccess?: () => void;
-    onError?: () => void;
-}
-
-export function useSignup({ onSuccess, onError }: SignupCallbacks) {
+export function useSignup({ clientActionSuccess, clientActionError }: ClientActions) {
     const { login } = useAuthContext();
 
     return useMutation(makeSignup, {
@@ -16,10 +12,14 @@ export function useSignup({ onSuccess, onError }: SignupCallbacks) {
                 login(data?.access_token, data?.user);
             }
 
-            if (onSuccess) {
-                onSuccess();
+            if (clientActionSuccess) {
+                clientActionSuccess();
             }
         },
-        onError
+        onError: () => {
+            if (clientActionError) {
+                clientActionError();
+            }
+        }
     });
 }

@@ -9,8 +9,8 @@ interface SignupFormProps {
 
 function RegisterForm({ className }: SignupFormProps): JSX.Element {
     const { mutate: doSubmit } = useSignup({
-        onSuccess: clearForm,
-        onError: () => {
+        clientActionSuccess: clearForm,
+        clientActionError: () => {
             setError('⛔ Something went wrong. Please try again.');
         }
     });

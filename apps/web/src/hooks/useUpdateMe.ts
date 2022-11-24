@@ -3,7 +3,7 @@ import { useAuthContext } from '../context/authContext';
 import { updateUser } from '../dataService';
 import { ClientActions, User, UserUpdateDto } from '../types';
 
-export function useUpdateMe({ onSuccess }: ClientActions) {
+export function useUpdateMe({ clientActionSuccess }: ClientActions) {
     const { contextUser, token, updateCtxUser } = useAuthContext();
     const queryClient = useQueryClient();
 
@@ -18,8 +18,8 @@ export function useUpdateMe({ onSuccess }: ClientActions) {
             if (data) {
                 updateCtxUser(data);
             }
-            if (onSuccess) {
-                onSuccess();
+            if (clientActionSuccess) {
+                clientActionSuccess();
             }
         }
     });

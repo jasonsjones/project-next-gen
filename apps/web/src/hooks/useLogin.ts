@@ -1,24 +1,20 @@
 import { useMutation } from 'react-query';
 import { useAuthContext } from '../context/authContext';
 import { makeLogin } from '../dataService';
+import { ClientActions } from '../types';
 
-interface LoginCallbacks {
-    onSuccess?: () => void;
-    onError?: () => void;
-}
-
-export function useLogin({ onSuccess, onError }: LoginCallbacks) {
+export function useLogin({ clientActionSuccess, clientActionError }: ClientActions) {
     const { login } = useAuthContext();
 
     return useMutation(makeLogin, {
         onSuccess: (data) => {
-            if (data.statusCode === 401 && onError) {
-                onError();
+            if (data.statusCode === 401 && clientActionError) {
+                clientActionError();
             } else {
-                onSuccess && onSuccess();
+                clientActionSuccess?.();
                 login(data?.access_token, data?.user);
             }
         },
-        onError: onError
+        onError: clientActionError
     });
 }

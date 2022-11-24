@@ -9,8 +9,8 @@ jest.mock('../../hooks', () => ({
     useFetchToken: jest
         .fn()
         .mockImplementationOnce(() => ({ isLoading: false })) // first call
-        .mockImplementationOnce((_, onSuccess) => {
-            onSuccess({ access_token: TEST_TOKEN, user: testUser });
+        .mockImplementationOnce((_, clientActionSuccess) => {
+            clientActionSuccess({ access_token: TEST_TOKEN, user: testUser });
             return { isLoading: false };
         }) // second call
         .mockImplementation(() => ({ isLoading: false })) // remaining calls

@@ -27,6 +27,6 @@ export interface LoginBody {
 }
 
 export interface ClientActions {
-    onSuccess?: () => void;
-    onError?: () => void;
+    clientActionSuccess?: () => void;
+    clientActionError?: () => void;
 }

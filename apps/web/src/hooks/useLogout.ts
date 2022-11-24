@@ -1,8 +1,9 @@
 import { useMutation } from 'react-query';
 import { useAuthContext } from '../context/authContext';
 import { makeLogout } from '../dataService';
+import { ClientActions } from '../types';
 
-export function useLogout(onSuccessCb?: () => void) {
+export function useLogout({ clientActionSuccess }: ClientActions) {
     const { logout } = useAuthContext();
 
     return useMutation(makeLogout, {
@@ -10,7 +11,7 @@ export function useLogout(onSuccessCb?: () => void) {
             if (!data.access_token) {
                 logout();
             }
-            onSuccessCb && onSuccessCb();
+            clientActionSuccess && clientActionSuccess();
         }
     });
 }

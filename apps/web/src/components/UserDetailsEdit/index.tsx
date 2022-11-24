@@ -12,7 +12,7 @@ function UserDetailsEdit({ exitEditMode }: UserDetailsEditProps): JSX.Element | 
     const { data, isLoading } = useFetchMe();
 
     const { mutate } = useUpdateMe({
-        onSuccess: () => {
+        clientActionSuccess: () => {
             exitEditMode();
         }
     });
