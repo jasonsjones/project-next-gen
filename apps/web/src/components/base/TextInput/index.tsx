@@ -3,7 +3,7 @@ interface TextInputProps {
     label: string;
     type?: 'text' | 'email' | 'password';
     className?: string;
-    value: string;
+    value: string | undefined;
     changeHandler?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

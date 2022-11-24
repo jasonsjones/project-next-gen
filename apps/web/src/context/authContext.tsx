@@ -10,6 +10,7 @@ interface AuthContextProps {
     isFetchingToken: boolean;
     login: (token: string, user: User) => void;
     logout: () => void;
+    updateCtxUser: (user?: User) => void;
 }
 
 const initialState: AuthContextProps = {
@@ -20,6 +21,9 @@ const initialState: AuthContextProps = {
         /* empty fn body */
     },
     logout: () => {
+        /* empty fn body */
+    },
+    updateCtxUser: () => {
         /* empty fn body */
     }
 };
@@ -50,7 +54,13 @@ function AuthProvider({ children }: { children: React.ReactNode }): JSX.Element 
         setContextUser(null);
     };
 
-    const value = { contextUser, token, isFetchingToken, login, logout };
+    const updateCtxUser = (user?: User) => {
+        if (user) {
+            setContextUser(user);
+        }
+    };
+
+    const value = { contextUser, token, isFetchingToken, login, logout, updateCtxUser };
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 

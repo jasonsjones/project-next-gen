@@ -120,3 +120,30 @@ export async function fetchMe({ queryKey }: { queryKey: string[] }) {
 
     return await res.json();
 }
+
+export async function updateUser({
+    id,
+    dto,
+    token
+}: {
+    id: string;
+    dto: UserUpdateDto;
+    token: string;
+}): Promise<User> {
+    const res = await fetch(`${BASE_URL}/api/v1/users/${id}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(dto)
+    });
+
+    if (!res.ok) {
+        const cause = await res.json();
+        throw new Error(res.statusText, { cause });
+    }
+
+    return await res.json();
+}
