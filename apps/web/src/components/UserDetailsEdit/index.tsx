@@ -3,6 +3,7 @@ import { useFetchMe, useUpdateMe } from '../../hooks';
 import { UserUpdateDto } from '../../types';
 import Button from '../base/Button';
 import TextInput from '../base/TextInput';
+import UserAvatar from '../UserAvatar';
 
 interface UserDetailsEditProps {
     exitEditMode: () => void;
@@ -36,14 +37,12 @@ function UserDetailsEdit({ exitEditMode }: UserDetailsEditProps): JSX.Element | 
 
     function handleUpdate(event: React.FormEvent) {
         event.preventDefault();
-        console.log('Handling the update with....');
-        console.log({ formValues });
         mutate(formValues);
     }
 
     return (
         <div className="mt-6 flex gap-8 items-center">
-            <img src="https://dummyimage.com/200/ccc/333" className="rounded-full" />
+            <UserAvatar />
             <form className="grow" onSubmit={handleUpdate}>
                 <div className="flex gap-8">
                     <TextInput
