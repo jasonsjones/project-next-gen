@@ -21,11 +21,47 @@ describe('UserController (e2e)', () => {
         await app.init();
     });
 
-    // seed.ts creates 2 users on initial migration
     describe('/users (GET)', () => {
-        it('returns the two seed users', () => {
+        it('returns 401 if bearer token (jwt) is not provided', () => {
             return request(app.getHttpServer())
                 .get('/users')
+                .expect(401)
+                .expect(({ body }) => {
+                    expect(body).toEqual(
+                        expect.objectContaining({
+                            statusCode: 401,
+                            message: 'Unauthorized'
+                        })
+                    );
+                });
+        });
+
+        it('returns 403 if the bearer token is not from an admin', async () => {
+            const user = await userService.findByEmail('barry@starlabs.com');
+            const token = authUtilsService.generateAccessToken(user);
+
+            return request(app.getHttpServer())
+                .get('/users')
+                .set('Authorization', `Bearer ${token}`)
+                .expect(403)
+                .expect(({ body }) => {
+                    expect(body).toEqual(
+                        expect.objectContaining({
+                            statusCode: 403,
+                            message: 'Forbidden resource'
+                        })
+                    );
+                });
+        });
+
+        // seed.ts creates 2 users on initial migration
+        it('returns the two seed users when requested by an admin', async () => {
+            const admin = await userService.findByEmail('oliver@qc.com');
+            const token = authUtilsService.generateAccessToken(admin);
+
+            return request(app.getHttpServer())
+                .get('/users')
+                .set('Authorization', `Bearer ${token}`)
                 .expect(200)
                 .expect(({ body }) => {
                     expect(body).toHaveLength(2);
@@ -34,7 +70,7 @@ describe('UserController (e2e)', () => {
     });
 
     describe('/users/me (GET)', () => {
-        it('return 401 if bearer token (jwt) is not provided', () => {
+        it('returns 401 if bearer token (jwt) is not provided', () => {
             return request(app.getHttpServer())
                 .get('/users/me')
                 .expect(401)
